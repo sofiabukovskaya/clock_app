@@ -14,7 +14,9 @@ class _ClockViewState extends State<ClockView> {
   @override
   void initState() {
     Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     });
     super.initState();
   }
@@ -79,12 +81,12 @@ class ClockPainter extends CustomPainter {
     canvas.drawCircle(center, radius - 40, fillBrush);
     canvas.drawCircle(center, radius - 40, outlineBrush);
 
-    double secHandX = centerX + 80 * cos(dateTime.second * 6 * pi / 180);
-    double secHandY = centerY + 80 * sin(dateTime.second * 6 * pi / 180);
+    double secHandX = centerX + 70 * cos(dateTime.second * 6 * pi / 180);
+    double secHandY = centerY + 70 * sin(dateTime.second * 6 * pi / 180);
     canvas.drawLine(center, Offset(secHandX, secHandY), secHandBrush);
 
-    double minHandX = centerX + 80 * cos(dateTime.minute * 6 * pi / 180);
-    double minHandY = centerY + 80 * sin(dateTime.minute * 6 * pi / 180);
+    double minHandX = centerX + 70 * cos(dateTime.minute * 6 * pi / 180);
+    double minHandY = centerY + 70 * sin(dateTime.minute * 6 * pi / 180);
     canvas.drawLine(center, Offset(minHandX, minHandY), minHandBrush);
 
     double hourHandX = centerX +
