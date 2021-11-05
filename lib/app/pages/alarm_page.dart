@@ -1,6 +1,9 @@
 import 'package:clock_app/app/data/data.dart';
+import 'package:clock_app/main.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:intl/intl.dart';
 
 class AlarmPage extends StatefulWidget {
   const AlarmPage({Key? key}) : super(key: key);
@@ -23,6 +26,8 @@ class _AlarmPageState extends State<AlarmPage> {
           Expanded(
             child: ListView(
                 children: alarmInfoItems.map<Widget>((alarm) {
+              String alarmTime =
+                  DateFormat('hh:mm aa').format(alarm.alarmDateTime);
               return Container(
                 margin: const EdgeInsets.only(bottom: 32),
                 padding:
@@ -72,16 +77,16 @@ class _AlarmPageState extends State<AlarmPage> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                      children: [
                         Text(
-                          '7:00 AM',
-                          style: TextStyle(
+                          alarmTime,
+                          style: const TextStyle(
                               fontFamily: 'avenir',
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
                               fontSize: 24),
                         ),
-                        Icon(Icons.keyboard_arrow_down,
+                        const Icon(Icons.keyboard_arrow_down,
                             color: Colors.white, size: 36)
                       ],
                     ),
@@ -108,7 +113,7 @@ class _AlarmPageState extends State<AlarmPage> {
             color: Color(0xFF444974),
             borderRadius: BorderRadius.all(Radius.circular(24))),
         child: TextButton(
-          onPressed: () => {},
+          onPressed: () => scheduledNotification(),
           child: Column(
             children: [
               Image.asset('assets/images/add_alarm.png', scale: 1.5),
@@ -122,5 +127,25 @@ class _AlarmPageState extends State<AlarmPage> {
         ),
       ),
     );
+  }
+
+  void scheduledNotification() async {
+    DateTime timeNotification = DateTime.now().add(const Duration(seconds: 5));
+
+    AndroidNotificationDetails androidNotificationDetails =
+        const AndroidNotificationDetails('alarm_notif', 'alarm_notif',
+            channelDescription: 'Channel for alarm notification',
+            icon: 'Flutter',
+            largeIcon: DrawableResourceAndroidBitmap('Flutter'));
+
+    IOSNotificationDetails iosNotificationDetails = const IOSNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true
+    );
+
+    NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetails, iOS: iosNotificationDetails);
+
+    await flutterLocalNotificationsPlugin.schedule(0, 'Office', 'Good morning!', timeNotification, notificationDetails);
   }
 }
