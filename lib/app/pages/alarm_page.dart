@@ -1,4 +1,5 @@
 import 'package:clock_app/app/data/data.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
 class AlarmPage extends StatefulWidget {
@@ -21,7 +22,7 @@ class _AlarmPageState extends State<AlarmPage> {
                   fontFamily: 'avenir', color: Colors.white, fontSize: 32)),
           Expanded(
             child: ListView(
-                children: alarmInfoItems.map((alarm) {
+                children: alarmInfoItems.map<Widget>((alarm) {
               return Container(
                 margin: const EdgeInsets.only(bottom: 32),
                 padding:
@@ -87,15 +88,38 @@ class _AlarmPageState extends State<AlarmPage> {
                   ],
                 ),
               );
-            }).followedBy([
-              Container(
-                color: Colors.red,
-                height: 100,
-                width: 100,
-              )
-            ]).toList()),
+            }).followedBy([_addAlarmButton()]).toList()),
           )
         ],
+      ),
+    );
+  }
+
+  Widget _addAlarmButton() {
+    return DottedBorder(
+      strokeWidth: 3,
+      color: Colors.white70,
+      borderType: BorderType.RRect,
+      dashPattern: const [5, 4],
+      radius: const Radius.circular(24),
+      child: Container(
+        width: double.infinity,
+        decoration: const BoxDecoration(
+            color: Color(0xFF444974),
+            borderRadius: BorderRadius.all(Radius.circular(24))),
+        child: TextButton(
+          onPressed: () => {},
+          child: Column(
+            children: [
+              Image.asset('assets/images/add_alarm.png', scale: 1.5),
+              const SizedBox(height: 8),
+              const Text(
+                'Add alarm',
+                style: TextStyle(fontFamily: 'avenir', color: Colors.white),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
