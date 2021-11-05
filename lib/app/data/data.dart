@@ -16,10 +16,12 @@ List<MenuInfo> menuInfoItems = [
 ];
 
 List<AlarmInfo> alarmInfoItems = [
-  AlarmInfo(DateTime.now().add(const Duration(hours: 1)),
-      description: 'Office',
+  AlarmInfo(
+      alarmDateTime: DateTime.now().add(const Duration(hours: 1)),
+      title: 'Office',
       gradientColor: [Colors.lightBlueAccent.shade400, Colors.purple.shade500]),
-  AlarmInfo(DateTime.now().add(const Duration(hours: 2)),
-      description: 'Sport',
+  AlarmInfo(
+      alarmDateTime: DateTime.now().add(const Duration(hours: 2)),
+      title: 'Sport',
       gradientColor: [Colors.purple.shade600, Colors.red.shade500])
 ];
